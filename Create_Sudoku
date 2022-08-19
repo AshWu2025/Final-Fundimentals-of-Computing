@@ -1,0 +1,37 @@
+#Creates a Sudoku Puzzle 
+#Creates a Sudoku Puzzle using refursion 
+#Ashley Wu 
+
+from random import shuffle
+import is_valid
+
+def Create_Sudoku(matrix = [[0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], 
+    [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], 
+    [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0], [0,0,0,0,0,0,0,0,0]], counter = 1): 
+    """Creates a 9 by 9 sudoku puzzle 
+    
+    Args: 
+        counter (int): Keeps the place of the number to be filled into the puzzle
+    Returns a 9 row by 9 column 2 dimentional list of lists that form a sudoku puzzle
+    """
+    #all of the possible numbers that can be in the sudoku 
+    pos = [1,2,3,4,5,6,7,8,9]
+
+    shuffle(pos)
+
+    possible = False
+
+    for i in range(pos):
+        if is_valid(matrix, pos[i]):
+            #if the move is valid, then we increase the counter and call the function again 
+            counter += 1
+            matrix[counter//9][(counter % 9)] = pos[i]
+            matrix = Create_Sudoku(matrix, pos[i], counter)
+            possible = True
+    
+    if not possible: 
+        counter -= 1
+        Create_Sudoku(counter)
+    
+    return matrix
+    
